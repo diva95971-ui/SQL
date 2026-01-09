@@ -1,0 +1,395 @@
+mysql> use Dep_Emp;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_dep_emp |
++-------------------+
+| departments       |
+| employees         |
++-------------------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT * FROM employees;
++--------+-------------+---------+----------+------------+------------+
+| emp_id | emp_name    | dept_id | salary   | experience | join_date  |
++--------+-------------+---------+----------+------------+------------+
+|    101 | Amit Sharma |       1 | 45000.00 |          3 | 2021-06-15 |
+|    102 | Priya Verma |       2 | 52000.00 |          4 | 2020-03-10 |
+|    103 | Rahul Kumar |       3 | 65000.00 |          5 | 2019-11-20 |
+|    104 | Sneha Iyer  |       4 | 48000.00 |          2 | 2022-01-05 |
+|    105 | Arjun Patel |       5 | 55000.00 |          4 | 2020-08-18 |
+|    106 | Neha Singh  |       6 | 50000.00 |          3 | 2021-02-25 |
+|    107 | Karthik R   |       7 | 70000.00 |          6 | 2018-07-12 |
+|    108 | Pooja Mehta |       8 | 42000.00 |          2 | 2022-05-30 |
+|    109 | Vikas Jain  |       9 | 46000.00 |          3 | 2021-09-14 |
+|    110 | Anjali Nair |      10 | 48000.00 |          4 | 2020-12-01 |
++--------+-------------+---------+----------+------------+------------+
+10 rows in set (0.00 sec)
+
+mysql>  SELECT * FROM departments;
++---------+------------------------+
+| dept_id | dept_name              |
++---------+------------------------+
+|       1 | Human Resources        |
+|       2 | Finance                |
+|       3 | Information Technology |
+|       4 | Marketing              |
+|       5 | Sales                  |
+|       6 | Operations             |
+|       7 | Research               |
+|       8 | Customer Support       |
+|       9 | Administration         |
+|      10 | Logistics              |
++---------+------------------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT emp_name FROM employees;
++-------------+
+| emp_name    |
++-------------+
+| Amit Sharma |
+| Priya Verma |
+| Rahul Kumar |
+| Sneha Iyer  |
+| Arjun Patel |
+| Neha Singh  |
+| Karthik R   |
+| Pooja Mehta |
+| Vikas Jain  |
+| Anjali Nair |
++-------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT * FROM dep_emp.employees
+    -> where salary between 60000 AND 80000;
++--------+-------------+---------+----------+------------+------------+
+| emp_id | emp_name    | dept_id | salary   | experience | join_date  |
++--------+-------------+---------+----------+------------+------------+
+|    103 | Rahul Kumar |       3 | 65000.00 |          5 | 2019-11-20 |
+|    107 | Karthik R   |       7 | 70000.00 |          6 | 2018-07-12 |
++--------+-------------+---------+----------+------------+------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM dep_emp.employees
+    -> where experience>5;
++--------+-----------+---------+----------+------------+------------+
+| emp_id | emp_name  | dept_id | salary   | experience | join_date  |
++--------+-----------+---------+----------+------------+------------+
+|    107 | Karthik R |       7 | 70000.00 |          6 | 2018-07-12 |
++--------+-----------+---------+----------+------------+------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM dep_emp.employees
+    -> where emp_name
+    -> LIKE A%;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%' at line 3
+mysql> where emp_name LIKE A%;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where emp_name LIKE A%' at line 1
+mysql> SELECT * FROM employees
+    -> WHERE emp_name LIKE 'A%';
++--------+-------------+---------+----------+------------+------------+
+| emp_id | emp_name    | dept_id | salary   | experience | join_date  |
++--------+-------------+---------+----------+------------+------------+
+|    101 | Amit Sharma |       1 | 45000.00 |          3 | 2021-06-15 |
+|    105 | Arjun Patel |       5 | 55000.00 |          4 | 2020-08-18 |
+|    110 | Anjali Nair |      10 | 48000.00 |          4 | 2020-12-01 |
++--------+-------------+---------+----------+------------+------------+
+3 rows in set (0.01 sec)
+
+mysql> SELECT * FROM dep_emp.employees
+    ->     -> SELECT * FROM students.stds
+    -> order by ID
+    -> SELECT * FROM dep_emp.employees
+    -> order by join_date
+    ->
+    -> desc tables;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> SELECT * FROM students.stds
+order by ID
+SELECT * FROM dep_emp.employees
+or' at line 2
+mysql> SELECT * FROM students.stds
+    -> order by ID
+    -> order by ID
+    ->
+    ->
+    -> SELECT * FROM employees
+    -> WHERE join_date > '2019-12-31';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order by ID
+
+
+SELECT * FROM employees
+WHERE join_date > '2019-12-31'' at line 3
+mysql>
+mysql> JOIN departments d ON e.dept_id = d.dept_id
+    -> WHERE d.dept_name IN ('Human Resources', 'Finance');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'JOIN departments d ON e.dept_id = d.dept_id
+WHERE d.dept_name IN ('Human Resourc' at line 1
+mysql> WHERE dept_name IN ('Human Resources', 'Finance');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE dept_name IN ('Human Resources', 'Finance')' at line 1
+mysql> SELECT e.*
+    -> FROM employees e
+    -> JOIN departments d ON e.dept_id = d.dept_id
+    -> WHERE d.dept_name IN ('Human Resources', 'Finance');
++--------+-------------+---------+----------+------------+------------+
+| emp_id | emp_name    | dept_id | salary   | experience | join_date  |
++--------+-------------+---------+----------+------------+------------+
+|    101 | Amit Sharma |       1 | 45000.00 |          3 | 2021-06-15 |
+|    102 | Priya Verma |       2 | 52000.00 |          4 | 2020-03-10 |
++--------+-------------+---------+----------+------------+------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employees
+    -> WHERE salary NOT BETWEEN 55000 AND 70000;
++--------+-------------+---------+----------+------------+------------+
+| emp_id | emp_name    | dept_id | salary   | experience | join_date  |
++--------+-------------+---------+----------+------------+------------+
+|    101 | Amit Sharma |       1 | 45000.00 |          3 | 2021-06-15 |
+|    102 | Priya Verma |       2 | 52000.00 |          4 | 2020-03-10 |
+|    104 | Sneha Iyer  |       4 | 48000.00 |          2 | 2022-01-05 |
+|    106 | Neha Singh  |       6 | 50000.00 |          3 | 2021-02-25 |
+|    108 | Pooja Mehta |       8 | 42000.00 |          2 | 2022-05-30 |
+|    109 | Vikas Jain  |       9 | 46000.00 |          3 | 2021-09-14 |
+|    110 | Anjali Nair |      10 | 48000.00 |          4 | 2020-12-01 |
++--------+-------------+---------+----------+------------+------------+
+7 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT * FROM employees
+    -> ORDER BY salary DESC
+    -> LIMIT 3;
++--------+-------------+---------+----------+------------+------------+
+| emp_id | emp_name    | dept_id | salary   | experience | join_date  |
++--------+-------------+---------+----------+------------+------------+
+|    107 | Karthik R   |       7 | 70000.00 |          6 | 2018-07-12 |
+|    103 | Rahul Kumar |       3 | 65000.00 |          5 | 2019-11-20 |
+|    105 | Arjun Patel |       5 | 55000.00 |          4 | 2020-08-18 |
++--------+-------------+---------+----------+------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employees
+    -> ORDER BY experience DESC;
++--------+-------------+---------+----------+------------+------------+
+| emp_id | emp_name    | dept_id | salary   | experience | join_date  |
++--------+-------------+---------+----------+------------+------------+
+|    107 | Karthik R   |       7 | 70000.00 |          6 | 2018-07-12 |
+|    103 | Rahul Kumar |       3 | 65000.00 |          5 | 2019-11-20 |
+|    102 | Priya Verma |       2 | 52000.00 |          4 | 2020-03-10 |
+|    105 | Arjun Patel |       5 | 55000.00 |          4 | 2020-08-18 |
+|    110 | Anjali Nair |      10 | 48000.00 |          4 | 2020-12-01 |
+|    101 | Amit Sharma |       1 | 45000.00 |          3 | 2021-06-15 |
+|    106 | Neha Singh  |       6 | 50000.00 |          3 | 2021-02-25 |
+|    109 | Vikas Jain  |       9 | 46000.00 |          3 | 2021-09-14 |
+|    104 | Sneha Iyer  |       4 | 48000.00 |          2 | 2022-01-05 |
+|    108 | Pooja Mehta |       8 | 42000.00 |          2 | 2022-05-30 |
++--------+-------------+---------+----------+------------+------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employees
+    -> LIMIT 4 OFFSET 1;
++--------+-------------+---------+----------+------------+------------+
+| emp_id | emp_name    | dept_id | salary   | experience | join_date  |
++--------+-------------+---------+----------+------------+------------+
+|    102 | Priya Verma |       2 | 52000.00 |          4 | 2020-03-10 |
+|    103 | Rahul Kumar |       3 | 65000.00 |          5 | 2019-11-20 |
+|    104 | Sneha Iyer  |       4 | 48000.00 |          2 | 2022-01-05 |
+|    105 | Arjun Patel |       5 | 55000.00 |          4 | 2020-08-18 |
++--------+-------------+---------+----------+------------+------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT COUNT(*) AS total_employees FROM employees;
++-----------------+
+| total_employees |
++-----------------+
+|              10 |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT AVG(salary) AS average_salary FROM employees;
++----------------+
+| average_salary |
++----------------+
+|   52100.000000 |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MAX(salary) AS highest_salary FROM employees;
++----------------+
+| highest_salary |
++----------------+
+|       70000.00 |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MIN(e.salary) AS lowest_salary
+    -> FROM employees e
+    -> JOIN departments d ON e.dept_id = d.dept_id
+    -> WHERE d.dept_name = 'Marketing';
++---------------+
+| lowest_salary |
++---------------+
+|      48000.00 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT SUM(e.salary) AS total_salary
+    -> FROM employees e
+    -> JOIN departments d ON e.dept_id = d.dept_id
+    -> WHERE d.dept_name = 'Information Technology';
++--------------+
+| total_salary |
++--------------+
+|     65000.00 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT d.dept_name, COUNT(e.emp_id) AS employee_count
+    -> FROM departments d
+    -> JOIN employees e ON d.dept_id = e.dept_id
+    -> GROUP BY d.dept_name;
++------------------------+----------------+
+| dept_name              | employee_count |
++------------------------+----------------+
+| Human Resources        |              1 |
+| Finance                |              1 |
+| Information Technology |              1 |
+| Marketing              |              1 |
+| Sales                  |              1 |
+| Operations             |              1 |
+| Research               |              1 |
+| Customer Support       |              1 |
+| Administration         |              1 |
+| Logistics              |              1 |
++------------------------+----------------+
+10 rows in set (0.01 sec)
+
+mysql> SELECT d.dept_name, AVG(e.salary) AS avg_salary
+    -> FROM departments d
+    -> JOIN employees e ON d.dept_id = e.dept_id
+    -> GROUP BY d.dept_name;
++------------------------+--------------+
+| dept_name              | avg_salary   |
++------------------------+--------------+
+| Human Resources        | 45000.000000 |
+| Finance                | 52000.000000 |
+| Information Technology | 65000.000000 |
+| Marketing              | 48000.000000 |
+| Sales                  | 55000.000000 |
+| Operations             | 50000.000000 |
+| Research               | 70000.000000 |
+| Customer Support       | 42000.000000 |
+| Administration         | 46000.000000 |
+| Logistics              | 48000.000000 |
++------------------------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT d.dept_name, MAX(e.experience) AS max_experience
+    -> FROM departments d
+    -> JOIN employees e ON d.dept_id = e.dept_id
+    -> GROUP BY d.dept_name;
++------------------------+----------------+
+| dept_name              | max_experience |
++------------------------+----------------+
+| Human Resources        |              3 |
+| Finance                |              4 |
+| Information Technology |              5 |
+| Marketing              |              2 |
+| Sales                  |              4 |
+| Operations             |              3 |
+| Research               |              6 |
+| Customer Support       |              2 |
+| Administration         |              3 |
+| Logistics              |              4 |
++------------------------+----------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT d.dept_name, SUM(e.salary) AS total_salary
+    -> FROM departments d
+    -> JOIN employees e ON d.dept_id = e.dept_id
+    -> GROUP BY d.dept_name;
++------------------------+--------------+
+| dept_name              | total_salary |
++------------------------+--------------+
+| Human Resources        |     45000.00 |
+| Finance                |     52000.00 |
+| Information Technology |     65000.00 |
+| Marketing              |     48000.00 |
+| Sales                  |     55000.00 |
+| Operations             |     50000.00 |
+| Research               |     70000.00 |
+| Customer Support       |     42000.00 |
+| Administration         |     46000.00 |
+| Logistics              |     48000.00 |
++------------------------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT d.dept_name, AVG(e.salary) AS avg_salary
+    -> FROM departments d
+    -> JOIN employees e ON d.dept_id = e.dept_id
+    -> GROUP BY d.dept_name
+    -> ORDER BY avg_salary DESC;
++------------------------+--------------+
+| dept_name              | avg_salary   |
++------------------------+--------------+
+| Research               | 70000.000000 |
+| Information Technology | 65000.000000 |
+| Sales                  | 55000.000000 |
+| Finance                | 52000.000000 |
+| Operations             | 50000.000000 |
+| Marketing              | 48000.000000 |
+| Logistics              | 48000.000000 |
+| Administration         | 46000.000000 |
+| Human Resources        | 45000.000000 |
+| Customer Support       | 42000.000000 |
++------------------------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT d.dept_name, COUNT(e.emp_id) AS employee_count
+    -> FROM departments d
+    -> JOIN employees e ON d.dept_id = e.dept_id
+    -> GROUP BY d.dept_name
+    -> HAVING COUNT(e.emp_id) > 1;
+Empty set (0.00 sec)
+
+mysql>
+mysql> SELECT d.dept_name, COUNT(e.emp_id) AS employee_count
+    -> FROM departments d
+    -> JOIN employees e ON d.dept_id = e.dept_id
+    -> GROUP BY d.dept_name
+    -> HAVING COUNT(e.emp_id) > 1;
+Empty set (0.00 sec)
+
+mysql> SELECT d.dept_name, AVG(e.salary) AS avg_salary
+    -> FROM departments d
+    -> JOIN employees e ON d.dept_id = e.dept_id
+    -> GROUP BY d.dept_name
+    -> HAVING AVG(e.salary) > 70000;
+Empty set (0.00 sec)
+
+mysql> SELECT d.dept_name, SUM(e.salary) AS total_salary
+    -> FROM departments d
+    -> JOIN employees e ON d.dept_id = e.dept_id
+    -> GROUP BY d.dept_name
+    -> HAVING SUM(e.salary) > 150000;
+Empty set (0.00 sec)
+
+mysql> SELECT d.dept_name
+    -> FROM departments d
+    -> JOIN employees e ON d.dept_id = e.dept_id
+    -> GROUP BY d.dept_name
+    -> HAVING MAX(e.experience) > 7;
+Empty set (0.00 sec)
+
+mysql> SELECT d.dept_name, MIN(e.salary) AS min_salary
+    -> FROM departments d
+    -> JOIN employees e ON d.dept_id = e.dept_id
+    -> GROUP BY d.dept_name
+    -> HAVING MIN(e.salary) > 60000;
++------------------------+------------+
+| dept_name              | min_salary |
++------------------------+------------+
+| Information Technology |   65000.00 |
+| Research               |   70000.00 |
++------------------------+------------+
+2 rows in set (0.00 sec)
+
+mysql>
